@@ -51,7 +51,43 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print() const
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;
+    }
+
+    Type val;
 };
+
+template<>
+void Wrapper<Point>::print() const
+{
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;
+}
+
+/*
+template <typename T>
+void variadicHelper(T&& val)
+{
+    Wrapper<T> (std::move(val)).print();
+    std::cout << "variadicHelper of type T&&" << std::endl;
+}
+*/
+
+void variadicHelper(void);
+
+template <typename T, typename... Args>
+void variadicHelper(T&& val, Args&&... args)
+{
+    Wrapper<T>(std::move(val)).print();
+    variadicHelper(std::forward<Args>(args) ...);
+}
+
+void variadicHelper(void) 
+{
+    //std::cout << "variadicHelper of type void" << std::endl;
+}
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
