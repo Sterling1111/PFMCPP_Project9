@@ -75,16 +75,18 @@ void variadicHelper(T&& val)
 }
 */
 
-void variadicHelper(void) 
-{
-    //std::cout << "variadicHelper of type void" << std::endl;
-}
+void variadicHelper(void);
 
 template <typename T, typename... Args>
 void variadicHelper(T&& val, Args&&... args)
 {
     Wrapper<T>(std::move(val)).print();
     variadicHelper(std::forward<Args>(args) ...);
+}
+
+void variadicHelper(void) 
+{
+    //std::cout << "variadicHelper of type void" << std::endl;
 }
 
 /*
